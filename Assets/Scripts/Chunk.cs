@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Chunk
@@ -196,10 +197,16 @@ public class Chunk
 	/// <param name="pos">The point that it is filling in the terrain</param>
 	public void PlaceTerrain(Vector3 pos)
 	{
-		Vector3Int v3Int = new Vector3Int(Mathf.CeilToInt(pos.x), Mathf.CeilToInt(pos.y), Mathf.CeilToInt(pos.z));
-		v3Int -= ChunkPostion;
-		modifiedTerrain[v3Int] = 1f;
+		//Vector3Int modifyPoint = new Vector3Int(Mathf.CeilToInt(pos.x), Mathf.CeilToInt(pos.y), Mathf.CeilToInt(pos.z));
+		Vector3Int modifyPoint = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+		modifyPoint -= ChunkPostion;
+		// Add new modification to the dictionary
+		modifiedTerrain[modifyPoint] = 1f;
+		// Recreate the mesh on new thread to minimise frame rate drop
+		// TODO: Wait for mesh to be created before building mesh
+		//new Thread(CreateMeshData).Start();
 		CreateMeshData();
+		// Set the new mesh as the one to use
 		BuildMesh();
 	}
 
@@ -209,10 +216,16 @@ public class Chunk
 	/// <param name="pos">The point that it is removing the terrain at</param>
 	public void RemoveTerrain(Vector3 pos)
 	{
-		Vector3Int floorPos = new Vector3Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
-		floorPos -= ChunkPostion;
-		modifiedTerrain[floorPos] = 0f;
+		//Vector3Int modifyPoint = new Vector3Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
+		Vector3Int modifyPoint = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+		modifyPoint -= ChunkPostion;
+		// Add new modification to the dictionary
+		modifiedTerrain[modifyPoint] = 0f;
+		// Recreate the mesh on new thread to minimise frame rate drop
+		// TODO: Wait for mesh to be created before building mesh
+		//new Thread(CreateMeshData).Start();
 		CreateMeshData();
+		// Set the new mesh as the one to use
 		BuildMesh();
 	}
 

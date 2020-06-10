@@ -513,7 +513,7 @@ MonoBehaviour:
   smoothTerrain: 1
   seed: 0
   noiseScale: 0.94
-  numOctaves: 6
+  numOctaves: 5
   weightMultiplier: 3
   lacunarity: 2
   persistence: 0.8
