@@ -15,10 +15,11 @@ public class WorldGenerator : MonoBehaviour
 	[Tooltip("How high the value has to be for it to be ground")]
 	[Range(0,1)]
 	public float terrainSurface = 0.5f;
+	[Min(16)]
 	[Tooltip("How wide the individual chunks are")]
 	public int ChunkWidth = 16;
 	[Tooltip("How tall the individual chunks are")]
-	[Range(20, 50)]
+	[Min(20)]
 	public int ChunkHeight = 250;
 
 	[Header("Generation settings")]
@@ -45,7 +46,7 @@ public class WorldGenerator : MonoBehaviour
 	[Range(0.5f, 1.5f)]
 	public float persistence = 0.5f;
 	[Tooltip("How big the differences are between the highs and the lows")]
-	[Range(0.5f, 6)]
+	[Min(0.5f)]
 	public float noiseWeight = 6;
 	[Tooltip("How high up the \"Floor\" is")]
 	public float floorOffset = 5;

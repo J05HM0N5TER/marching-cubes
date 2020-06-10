@@ -56,7 +56,7 @@ public class GameData
 			// If it does check if it is storing the value in its modified terrain
 			if (current.modifiedTerrain.ContainsKey(keyPos))
 			{
-				float returnVal = (float)current.modifiedTerrain[keyPos] / byte.MaxValue;
+				float returnVal = current.modifiedTerrain[keyPos];
 				// If it is return that value
 				return returnVal;
 			}
