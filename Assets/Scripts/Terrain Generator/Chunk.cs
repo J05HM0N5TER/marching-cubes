@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Chunk
@@ -39,7 +40,7 @@ public class Chunk
 	}
 
 	// Stores all the differences between the terrain generated and the current terrain
-	public Dictionary<Vector3Int, byte> modifiedTerrain;
+	public Dictionary<Vector3Int, float> modifiedTerrain;
 
 	/// <summary>The vertices for the terrain mesh</summary>
 	private List<Vector3> vertices = new List<Vector3>();
@@ -70,7 +71,7 @@ public class Chunk
 		// Set tag for later use
 		chunkObject.transform.tag = "Terrain";
 		// Generate dictionary for changed terrain
-		modifiedTerrain = new Dictionary<Vector3Int, byte>();
+		modifiedTerrain = new Dictionary<Vector3Int, float>();
 
 		// Moved out of this function for multi-threading
 		//CreateMeshData();
@@ -196,10 +197,17 @@ public class Chunk
 	/// <param name="pos">The point that it is filling in the terrain</param>
 	public void PlaceTerrain(Vector3 pos)
 	{
-		Vector3Int v3Int = new Vector3Int(Mathf.CeilToInt(pos.x), Mathf.CeilToInt(pos.y), Mathf.CeilToInt(pos.z));
-		v3Int -= ChunkPostion;
-		modifiedTerrain[v3Int] = byte.MaxValue;
+		//Vector3Int modifyPoint = new Vector3Int(Mathf.CeilToInt(pos.x), Mathf.CeilToInt(pos.y), Mathf.CeilToInt(pos.z));
+		Vector3Int modifyPoint = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+		modifyPoint -= ChunkPostion;
+		// Add new modification to the dictionary
+		modifiedTerrain[modifyPoint] = 1f;
+		// Recreate the mesh on new thread to minimise frame rate drop
+		// TODO: Wait for mesh to be created before building mesh
+		//new Thread(CreateMeshData).Start();
 		CreateMeshData();
+		// Set the new mesh as the one to use
+		BuildMesh();
 	}
 
 	/// <summary>
@@ -208,10 +216,17 @@ public class Chunk
 	/// <param name="pos">The point that it is removing the terrain at</param>
 	public void RemoveTerrain(Vector3 pos)
 	{
-		Vector3Int floorPos = new Vector3Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
-		floorPos -= ChunkPostion;
-		modifiedTerrain[floorPos] = byte.MinValue;
+		//Vector3Int modifyPoint = new Vector3Int(Mathf.FloorToInt(pos.x), Mathf.FloorToInt(pos.y), Mathf.FloorToInt(pos.z));
+		Vector3Int modifyPoint = new Vector3Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y), Mathf.RoundToInt(pos.z));
+		modifyPoint -= ChunkPostion;
+		// Add new modification to the dictionary
+		modifiedTerrain[modifyPoint] = 0f;
+		// Recreate the mesh on new thread to minimise frame rate drop
+		// TODO: Wait for mesh to be created before building mesh
+		//new Thread(CreateMeshData).Start();
 		CreateMeshData();
+		// Set the new mesh as the one to use
+		BuildMesh();
 	}
 
 	/// <summary>

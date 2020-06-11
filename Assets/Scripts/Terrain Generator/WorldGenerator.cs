@@ -11,15 +11,16 @@ public class WorldGenerator : MonoBehaviour
 	public bool randomiseSeed = false;
 	[Header("Terrain settings")]
 	[Tooltip("How big the generated area is")]
-	public int WorldSizeInChunks = 10;
+	public int WorldSizeInChunks = 4;
 	[Tooltip("How high the value has to be for it to be ground")]
 	[Range(0,1)]
 	public float terrainSurface = 0.5f;
+	[Min(16)]
 	[Tooltip("How wide the individual chunks are")]
 	public int ChunkWidth = 16;
 	[Tooltip("How tall the individual chunks are")]
-	[Range(20, 50)]
-	public int ChunkHeight = 250;
+	[Min(20)]
+	public int ChunkHeight = 20;
 
 	[Header("Generation settings")]
 	[Tooltip("If the terrain should be smooth ore 'blocky'")]
@@ -30,10 +31,10 @@ public class WorldGenerator : MonoBehaviour
 
 	[Tooltip("How often the change in height is")]
 	[Range(0.1f, 1.5f)]
-	public float noiseScale = 3;
+	public float noiseScale = 1;
 	[Tooltip("How fine the detail is")]
 	[Range(2, 8)]
-	public int numOctaves = 6;
+	public int numOctaves = 5;
 	[Range(1, 4)]
 	[Tooltip("How big the details are")]
 	public float weightMultiplier = 3;
@@ -43,12 +44,12 @@ public class WorldGenerator : MonoBehaviour
 	public float lacunarity = 2;
 	[Tooltip("How filled the terrain is")]
 	[Range(0.5f, 1.5f)]
-	public float persistence = 0.5f;
+	public float persistence = 0.8f;
 	[Tooltip("How big the differences are between the highs and the lows")]
-	[Range(0.5f, 6)]
+	[Min(0.5f)]
 	public float noiseWeight = 6;
 	[Tooltip("How high up the \"Floor\" is")]
-	public float floorOffset = 5;
+	public float floorOffset = -2;
 
 	private void Awake()
 	{
