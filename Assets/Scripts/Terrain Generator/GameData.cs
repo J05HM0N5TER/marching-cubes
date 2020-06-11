@@ -88,10 +88,13 @@ public class GameData
 			offsets[i] = new Vector3((float)prng.NextDouble() * 2 - 1, (float)prng.NextDouble() * 2 - 1, (float)prng.NextDouble() * 2 - 1) * offsetRange;
 		}
 
+		// The outcome
 		float totalNoise = 0;
 		//float offsetNoise = 0;
 		float frequency = worldGenerator.noiseScale / 100;
+		// How much this frequency effect the total outcome
 		float amplitude = 1;
+		// How big the difference is between the highs and lows in the outcome
 		float weight = 1;
 		for (int j = 0; j < worldGenerator.numOctaves; j++)
 		{
