@@ -512,13 +512,13 @@ MonoBehaviour:
   ChunkHeight: 20
   smoothTerrain: 1
   seed: 0
-  noiseScale: 0.94
+  noiseScale: 1
   numOctaves: 5
   weightMultiplier: 3
   lacunarity: 2
   persistence: 0.8
   noiseWeight: 6
-  floorOffset: 2.28
+  floorOffset: 2
 --- !u!4 &1148891937
 Transform:
   m_ObjectHideFlags: 0
