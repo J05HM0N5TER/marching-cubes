@@ -23,7 +23,7 @@ public class WorldGenerator : MonoBehaviour
 	public int ChunkHeight = 20;
 
 	[Header("Generation settings")]
-	[Tooltip("If the terrain should be smooth ore 'blocky'")]
+	[Tooltip("If the terrain should be smooth or 'blocky'")]
 	public bool smoothTerrain = true;
 	[Tooltip("The seed used generation (0 means random)")]
 	public long seed = 0;
